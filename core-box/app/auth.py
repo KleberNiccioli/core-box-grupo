@@ -2,25 +2,25 @@
 import datetime
 import secrets
 import time
-from flask import Blueprint, render_template, request, make_response, jsonify, redirect
+from flask import Blueprint, current_app, render_template, request, make_response, jsonify, redirect
 from app import auditoria
 from app.db import get_db
 from app.seguranca import verificar_senha, emitir_token, hash_senha
 
 bp = Blueprint("auth", __name__)
 
-_TENTATIVAS_POR_DB = {}
+_TENTATIVAS_POR_APP = {}
 MAX_TENTATIVAS = 5
 JANELA_BLOQUEIO_SEG = 900
 _HASH_DUMMY = hash_senha("senha_inexistente_padrao_box")
 
 
 def _mapa_tentativas():
-    # Vincula o controle de bloqueio à instância atual do banco (zera automaticamente entre testes)
-    chave_db = id(get_db())
-    if len(_TENTATIVAS_POR_DB) > 100:
-        _TENTATIVAS_POR_DB.clear()
-    return _TENTATIVAS_POR_DB.setdefault(chave_db, {})
+    # Usa o caminho do banco da configuracao do app (unico por teste no pytest e unico em producao)
+    chave_app = current_app.config.get("DATABASE", "default")
+    if len(_TENTATIVAS_POR_APP) > 100:
+        _TENTATIVAS_POR_APP.clear()
+    return _TENTATIVAS_POR_APP.setdefault(chave_app, {})
 
 
 def _esta_bloqueado(cpf):
