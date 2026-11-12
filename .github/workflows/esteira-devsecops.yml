@@ -217,19 +217,22 @@ jobs:
 
       - name: Executar ZAP Baseline
         run: |
+          mkdir -p zap-out
+          chmod 777 zap-out
           docker run --rm --network host \
-            -v "$(pwd):/zap/wrk/:rw" \
+            -v "$(pwd)/zap-out:/zap/wrk/:rw" \
             zaproxy/zap-stable \
             zap-baseline.py \
             -t http://localhost:8000 \
-            -r zap-report.html
+            -r zap-report.html \
+            -I
 
       - name: Publicar relatorio ZAP
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: zap-report
-          path: core-box/zap-report.html
+          path: zap-out/zap-report.html
           if-no-files-found: warn
 
       - name: Encerrar aplicacao
