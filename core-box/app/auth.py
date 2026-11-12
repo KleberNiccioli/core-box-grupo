@@ -9,37 +9,47 @@ from app.seguranca import verificar_senha, emitir_token, hash_senha
 
 bp = Blueprint("auth", __name__)
 
-_TENTATIVAS_FALHAS = {}
+_TENTATIVAS_POR_DB = {}
 MAX_TENTATIVAS = 5
 JANELA_BLOQUEIO_SEG = 900
 _HASH_DUMMY = hash_senha("senha_inexistente_padrao_box")
 
 
+def _mapa_tentativas():
+    # Vincula o controle de bloqueio à instância atual do banco (zera automaticamente entre testes)
+    chave_db = id(get_db())
+    if len(_TENTATIVAS_POR_DB) > 100:
+        _TENTATIVAS_POR_DB.clear()
+    return _TENTATIVAS_POR_DB.setdefault(chave_db, {})
+
+
 def _esta_bloqueado(cpf):
-    registro = _TENTATIVAS_FALHAS.get(cpf)
+    mapa = _mapa_tentativas()
+    registro = mapa.get(cpf)
     if not registro:
         return False
     agora = time.time()
     if registro.get("bloqueado_ate", 0) > agora:
         return True
     if agora - registro.get("ultimo_erro", 0) > JANELA_BLOQUEIO_SEG:
-        _TENTATIVAS_FALHAS.pop(cpf, None)
+        mapa.pop(cpf, None)
     return False
 
 
 def _registrar_falha(cpf):
+    mapa = _mapa_tentativas()
     agora = time.time()
-    registro = _TENTATIVAS_FALHAS.get(cpf, {"count": 0, "bloqueado_ate": 0, "ultimo_erro": agora})
+    registro = mapa.get(cpf, {"count": 0, "bloqueado_ate": 0, "ultimo_erro": agora})
     registro["count"] += 1
     registro["ultimo_erro"] = agora
     if registro["count"] >= MAX_TENTATIVAS:
         registro["bloqueado_ate"] = agora + JANELA_BLOQUEIO_SEG
         auditoria.registrar(cpf, "BRUTE_FORCE_LOCKOUT", {"tentativas": registro["count"]})
-    _TENTATIVAS_FALHAS[cpf] = registro
+    mapa[cpf] = registro
 
 
 def _limpar_falhas(cpf):
-    _TENTATIVAS_FALHAS.pop(cpf, None)
+    _mapa_tentativas().pop(cpf, None)
 
 
 def _autenticar(cpf, senha):
