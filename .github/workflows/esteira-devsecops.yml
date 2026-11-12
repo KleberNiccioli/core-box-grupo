@@ -31,8 +31,6 @@ jobs:
 
       - name: Executar Gitleaks
         uses: gitleaks/gitleaks-action@v2
-        continue-on-error: true
-
 
   # =========================================================
   # ETAPA 2 - SAST
@@ -59,16 +57,13 @@ jobs:
 
       - name: Executar TM-03
         run: semgrep --config .semgrep/tm03.yml app/
-        continue-on-error: true
-
+        
       - name: Executar TM-04
         run: semgrep --config .semgrep/tm04.yml app/
-        continue-on-error: true
-
+        
       - name: Executar TM-06
         run: semgrep --config .semgrep/tm06.yml app/
-        continue-on-error: true
-
+        
 
   # =========================================================
   # ETAPA 3 - TESTES FUNCIONAIS E ABUSE CASES
@@ -100,8 +95,6 @@ jobs:
 
       - name: Executar pytest
         run: python -m pytest -v
-        continue-on-error: true
-
 
   # =========================================================
   # ETAPA 4 - SCA / DEPENDENCIAS
@@ -223,7 +216,6 @@ jobs:
           exit 1
 
       - name: Executar ZAP Baseline
-        continue-on-error: true
         run: |
           docker run --rm --network host \
             -v "$(pwd):/zap/wrk/:rw" \
