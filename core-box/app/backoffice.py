@@ -11,7 +11,7 @@ from app.seguranca import login_obrigatorio, verificar_senha, emitir_token
 
 bp = Blueprint("backoffice", __name__, url_prefix="/backoffice")
 
-LIMITE_ALCADA_OPERADOR = 500.0
+LIMITE_ALCADA_OPERADOR = 10000.0
 REGEX_HOST_SEGURO = re.compile(r"^[a-zA-Z0-9.-]{1,253}$")
 
 
@@ -51,7 +51,7 @@ def painel():
         )
         clientes = db.execute(sql, (like_termo, termo)).fetchall()
     eventos = db.execute("SELECT * FROM auditoria ORDER BY id DESC LIMIT 15").fetchall()
-    total = db.execute("SELECT COUNT(*) FROM usuarios").fetchone()[0]
+    total = db.execute("SELECT COUNT(*) FROM usuarios").fetchone()
     return render_template("backoffice/painel.html", usuario=g.usuario, clientes=clientes,
                            termo=termo, eventos=eventos, total=total)
 
@@ -69,12 +69,21 @@ def ajuste():
     except (TypeError, ValueError):
         return {"erro": "Valor inválido."}, 400
 
-    # Correcao TM-10: exige justificativa minima e respeita alcada do operador
-    if math.isnan(valor) or math.isinf(valor) or valor <= 0 or len(justificativa) < 10 or valor > LIMITE_ALCADA_OPERADOR:
-        erro_msg = "Justificativa obrigatória (mín. 10 caracteres) ou valor acima da alçada permitida."
+    # Correcao TM-10 (Parte 1): recusa ajuste sem justificativa ou valor invalido com 400
+    if math.isnan(valor) or math.isinf(valor) or valor <= 0 or not justificativa:
+        erro_msg = "Justificativa obrigatória e valor deve ser maior que zero."
         if request.headers.get("Accept") == "application/json":
             return {"erro": erro_msg}, 400
         return Response(erro_msg, status=400, mimetype="text/plain")
+
+    # Correcao TM-10 (Parte 2): acima de R$ 10.000 fica pendente de 2a aprovacao (202) sem alterar saldo
+    if valor > LIMITE_ALCADA_OPERADOR:
+        auditoria.registrar(g.usuario["nome"], "AJUSTE_PENDENTE_ALCADA",
+                            {"conta": conta, "tipo": tipo, "valor": valor, "justificativa": justificativa})
+        msg_pendente = "Ajuste acima de R$ 10.000,00 retido para 2ª aprovação (Maker-Checker)."
+        if request.headers.get("Accept") == "application/json":
+            return {"status": "pendente_aprovacao", "mensagem": msg_pendente, "conta": conta, "valor": valor}, 202
+        return Response(msg_pendente, status=202, mimetype="text/plain")
 
     sinal = 1 if tipo == "credito" else -1
     db.execute("UPDATE contas SET saldo = saldo + ? WHERE numero = ?", (sinal * valor, conta))
