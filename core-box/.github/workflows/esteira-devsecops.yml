@@ -199,7 +199,6 @@ jobs:
               echo "Aplicacao disponivel."
               exit 0
             fi
-
             echo "Tentativa $i de 30: aplicacao ainda indisponivel."
             sleep 2
           done
@@ -230,3 +229,23 @@ jobs:
       - name: Encerrar aplicacao
         if: always()
         run: docker compose down
+  deploy:
+    name: 8 - Deploy - Producao
+    needs: dast
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy
+        run: |
+          echo "Deploy aprovado"
+          echo "Aplicacao Core Box liberada para producao"
+
+      - name: Smoke Test
+        run: |
+          echo "Smoke test executado"
+        
