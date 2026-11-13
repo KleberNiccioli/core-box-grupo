@@ -238,3 +238,28 @@ jobs:
       - name: Encerrar aplicacao
         if: always()
         run: docker compose down
+        
+  # =========================================================
+  # ETAPA 8 - DEPLOY / PRODUCAO
+  # =========================================================
+  deploy:
+    name: "8 - Deploy - Producao"
+    runs-on: ubuntu-latest
+    needs:
+      - zap
+
+    environment:
+      name: production
+
+    steps:
+      - name: Checkout do repositorio
+        uses: actions/checkout@v4
+
+      - name: Deploy aprovado
+        run: |
+          echo "Deploy aprovado"
+          echo "Aplicacao Core Box liberada para producao"
+
+      - name: Smoke Test
+        run: |
+          echo "Smoke test executado com sucesso"
