@@ -1,0 +1,41 @@
+EXCECOES - DIA 02
+Este documento registra os riscos aceitos temporariamente durante o Dia 02 do desafio Core Box.
+
+EX-01 - SSH / Porta 22
+Risco: Acesso administrativo por SSH permanece habilitado.
+
+Motivo: O tratamento completo do acesso a infraestrutura nao faz parte do escopo do Dia 02.
+
+Tratamento: Risco aceito temporariamente.
+
+Controle compensatorio: Restringir o acesso somente a usuarios autorizados.
+
+Prazo: Dia 04.
+
+Status: Aceito temporariamente.
+
+EX-02 - Aplicacao HTTP sem TLS
+Risco: A aplicacao utilizada no laboratorio permanece utilizando HTTP sem TLS.
+
+Motivo: O foco do Dia 02 foi a validacao da aplicacao e da esteira DevSecOps em ambiente de laboratorio.
+
+Tratamento: Risco aceito temporariamente.
+
+Controle compensatorio: Utilizacao apenas no ambiente controlado de laboratorio.
+
+Prazo: Dia 04.
+
+Status: Aceito temporariamente.
+
+EX-03 - Chave SSH de longa duracao
+Risco: Utilizacao de chave SSH de longa duracao.
+
+Motivo: A gestao e rotacao completa das credenciais de infraestrutura nao foi implementada nesta etapa.
+
+Tratamento: Risco aceito temporariamente.
+
+Controle compensatorio: Restringir o uso da chave somente a usuarios autorizados.
+
+Prazo: Dia 04.
+
+Status: Aceito temporariamente.
