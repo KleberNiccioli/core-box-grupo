@@ -32,4 +32,3 @@ No Dia 02, os riscos identificados serao utilizados como referencia para as ativ
 
 Grupo 01 - Core Box
 
-Mudança principal: removi toda formatação que poderia interferir no editor. Se esse texto simples também apresentar erro, então o problema provavelmente não está no conteúdo do README, mas na forma como o arquivo está sendo editado/salvo no GitHub
