@@ -1,0 +1,2567 @@
+{
+  "version": "2.6.2",
+  "summary": {
+    "title": "Banco Box — Core Bancário — Threat Model (Corrigido e Validado)",
+    "owner": "Grupo DevSecOps Banco Box",
+    "description": "Modelo com as 20 ameaças STRIDE injetadas e estrutura JSON rigorosamente limpa para passar no validador de esquema do Threat Dragon v2.",
+    "id": 0
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "id": 0,
+        "title": "DFD Nível 1 — Arquitetura Consolidada",
+        "diagramType": "STRIDE",
+        "version": "2.6.2",
+        "cells": [
+          {
+            "position": {
+              "x": 20,
+              "y": 20
+            },
+            "size": {
+              "width": 230,
+              "height": 350
+            },
+            "attrs": {
+              "body": {
+                "stroke": "#d0021b"
+              },
+              "label": {
+                "text": "Fronteira 1: Internet (Não Confiável)"
+              },
+              "headerText": {
+                "text": "Fronteira 1: Internet (Não Confiável)"
+              }
+            },
+            "visible": true,
+            "shape": "trust-boundary-box",
+            "zIndex": -1,
+            "id": "85f1d39c-c579-4dc1-9a6d-22db106881ec",
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "Fronteira 1: Internet (Não Confiável)",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false,
+              "containedElements": [
+                "act-cliente"
+              ],
+              "crossingFlows": [
+                "b32951dc-00b2-4e88-b0fa-6e1585aba4e5"
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 20,
+              "y": 420
+            },
+            "size": {
+              "width": 230,
+              "height": 220
+            },
+            "attrs": {
+              "body": {
+                "stroke": "#4a90e2"
+              },
+              "label": {
+                "text": "Fronteira 4: Rede Corporativa Box"
+              },
+              "headerText": {
+                "text": "Fronteira 4: Rede Corporativa Box"
+              }
+            },
+            "visible": true,
+            "shape": "trust-boundary-box",
+            "zIndex": -1,
+            "id": "450b204d-c5b6-4f86-b024-a083aabe34aa",
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "Fronteira 4: Rede Corporativa Box",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false,
+              "containedElements": [
+                "act-operador"
+              ],
+              "crossingFlows": [
+                "87d003db-b377-4fb9-a6eb-2577187b9979"
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 280,
+              "y": 20
+            },
+            "size": {
+              "width": 750,
+              "height": 620
+            },
+            "attrs": {
+              "body": {
+                "stroke": "#d0021b"
+              },
+              "label": {
+                "text": "Fronteira 2: Zona de Aplicação (EC2)"
+              },
+              "headerText": {
+                "text": "Fronteira 2: Zona de Aplicação (EC2)"
+              }
+            },
+            "visible": true,
+            "shape": "trust-boundary-box",
+            "zIndex": -1,
+            "id": "52ddf72b-969b-4c69-96e6-be12260337a4",
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "Fronteira 2: Zona de Aplicação (EC2)",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false,
+              "containedElements": [
+                "proc-nginx",
+                "proc-auth",
+                "proc-pix",
+                "proc-onboarding",
+                "proc-backoffice",
+                "store-redis",
+                "store-pg",
+                "store-env"
+              ],
+              "crossingFlows": [
+                "b32951dc-00b2-4e88-b0fa-6e1585aba4e5",
+                "87d003db-b377-4fb9-a6eb-2577187b9979",
+                "aa730dbe-a56b-4dbc-8adc-6206537ecd60",
+                "d3044e65-4105-4234-a88e-1f879f904245",
+                "a0d2abb2-5dc9-413c-85aa-6cd965b0615e"
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 1080,
+              "y": 20
+            },
+            "size": {
+              "width": 250,
+              "height": 330
+            },
+            "attrs": {
+              "body": {
+                "stroke": "#f5a623"
+              },
+              "label": {
+                "text": "Fronteira 3: Terceiros (Parceiros)"
+              },
+              "headerText": {
+                "text": "Fronteira 3: Terceiros (Parceiros)"
+              }
+            },
+            "visible": true,
+            "shape": "trust-boundary-box",
+            "zIndex": -1,
+            "id": "6e6077f0-650f-417f-bf3d-789f83266c80",
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "Fronteira 3: Terceiros (Parceiros)",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false,
+              "containedElements": [
+                "act-bacen",
+                "act-kyc"
+              ],
+              "crossingFlows": [
+                "d3044e65-4105-4234-a88e-1f879f904245",
+                "a0d2abb2-5dc9-413c-85aa-6cd965b0615e"
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 1080,
+              "y": 400
+            },
+            "size": {
+              "width": 250,
+              "height": 240
+            },
+            "attrs": {
+              "body": {
+                "stroke": "#f5a623"
+              },
+              "label": {
+                "text": "Fronteira 5: AWS Cloud (Serviços Geridos)"
+              },
+              "headerText": {
+                "text": "Fronteira 5: AWS Cloud (Serviços Geridos)"
+              }
+            },
+            "visible": true,
+            "shape": "trust-boundary-box",
+            "zIndex": -1,
+            "id": "5ad51666-1a4b-4156-8349-44c4f0992176",
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "Fronteira 5: AWS Cloud (Serviços Geridos)",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false,
+              "containedElements": [
+                "store-s3"
+              ],
+              "crossingFlows": [
+                "aa730dbe-a56b-4dbc-8adc-6206537ecd60"
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 50,
+              "y": 140
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Cliente PF/PJ"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 1,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "a953915c-1d6d-4d4f-9d6a-e493cedc4bff"
+                },
+                {
+                  "group": "right",
+                  "id": "e99ab8e7-3fb9-49e7-b232-5be9352fcac0"
+                },
+                {
+                  "group": "bottom",
+                  "id": "f051e489-144a-4d9f-b683-d8f1b832a1bc"
+                },
+                {
+                  "group": "left",
+                  "id": "2b49889c-fd6a-4f19-be97-70cd15c5553a"
+                }
+              ]
+            },
+            "id": "act-cliente",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Cliente PF/PJ",
+              "description": "Usuário do App ou IB",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": []
+            }
+          },
+          {
+            "position": {
+              "x": 50,
+              "y": 490
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Operador Backoffice"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 1,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "d1e67721-35ac-4510-b87a-1e7a4c487f28"
+                },
+                {
+                  "group": "right",
+                  "id": "a46b82ac-2d75-4335-bd10-267e470b23d5"
+                },
+                {
+                  "group": "bottom",
+                  "id": "14f72404-8ab0-42ce-b7a8-c63d4b4e7fdd"
+                },
+                {
+                  "group": "left",
+                  "id": "4ce6bd08-14e2-415e-8da5-d2357ed7ffcf"
+                }
+              ]
+            },
+            "id": "act-operador",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Operador Backoffice",
+              "description": "Agências/Mesa",
+              "hasOpenThreats": false,
+              "providesAuthentication": true,
+              "threats": []
+            }
+          },
+          {
+            "position": {
+              "x": 1120,
+              "y": 70
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "PSTI / Bacen"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 1,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "687bf212-2c27-4019-83e5-5fdf089fafb7"
+                },
+                {
+                  "group": "right",
+                  "id": "6390479e-1180-4300-b0c0-cd8a7abc96fc"
+                },
+                {
+                  "group": "bottom",
+                  "id": "dd527b84-d4b9-4a0f-8a10-76f785f18a62"
+                },
+                {
+                  "group": "left",
+                  "id": "869f393f-66ee-4625-bfc2-33006fa2b4b8"
+                }
+              ]
+            },
+            "id": "act-bacen",
+            "data": {
+              "type": "tm.Actor",
+              "name": "PSTI / Bacen",
+              "description": "Conexão à RSFN",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": []
+            }
+          },
+          {
+            "position": {
+              "x": 1120,
+              "y": 210
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Bureau KYC / SERPRO"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 1,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "afc20c94-b381-42bb-8528-e037da274d0f"
+                },
+                {
+                  "group": "right",
+                  "id": "7e50626a-2248-4ed1-af35-2922e5d62800"
+                },
+                {
+                  "group": "bottom",
+                  "id": "8b84bacb-6011-4fae-9e78-ae46041d43cc"
+                },
+                {
+                  "group": "left",
+                  "id": "d878a1b6-a4ef-4032-afe5-e4c8c7ac8cbe"
+                }
+              ]
+            },
+            "id": "act-kyc",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Bureau KYC / SERPRO",
+              "description": "Validação Identidade",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": []
+            }
+          },
+          {
+            "position": {
+              "x": 330,
+              "y": 260
+            },
+            "size": {
+              "width": 110,
+              "height": 110
+            },
+            "attrs": {
+              "text": {
+                "text": "1.0 Nginx Gateway"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 2,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "a13ad3db-0eca-4562-854c-2b01da71432d"
+                },
+                {
+                  "group": "right",
+                  "id": "78852ad7-bd1f-48a9-ad25-da57a6c14bcc"
+                },
+                {
+                  "group": "bottom",
+                  "id": "4d2a7dc0-d5d8-402a-ad12-d64d722dedd8"
+                },
+                {
+                  "group": "left",
+                  "id": "321b04ba-56d1-48dc-894e-cd7b32b54962"
+                }
+              ]
+            },
+            "id": "proc-nginx",
+            "data": {
+              "type": "tm.Process",
+              "name": "1.0 Nginx Gateway",
+              "description": "Terminação TLS",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "005f1457-e895-4b9d-ae78-a8d367082525",
+                  "title": "TM-15 Indisponibilidade total por VM Única",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Denial of Service",
+                  "description": "Atacante direciona ataque DDoS volumétrico contra o IP público derrubando todo o ecossistema bancário operando sob um único ponto de falha (uma VM EC2).",
+                  "mitigation": "Migrar para Auto Scaling Groups / Kubernetes com WAF na borda (CloudFront/Shield).",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 550,
+              "y": 60
+            },
+            "size": {
+              "width": 110,
+              "height": 110
+            },
+            "attrs": {
+              "text": {
+                "text": "2.0 auth-service"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 2,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "5d1ffd3d-d148-4cb3-b560-572bdf01c868"
+                },
+                {
+                  "group": "right",
+                  "id": "dfb3c1ec-4566-4836-bb29-763f8bfd9055"
+                },
+                {
+                  "group": "bottom",
+                  "id": "263362b7-235d-4c5e-bb51-1a77708d05a2"
+                },
+                {
+                  "group": "left",
+                  "id": "dc69081c-ca57-4a15-aaa4-93bafb84967e"
+                }
+              ]
+            },
+            "id": "proc-auth",
+            "data": {
+              "type": "tm.Process",
+              "name": "2.0 auth-service",
+              "description": "Login e MFA (JWT HS256)",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "ed0dd557-e207-429d-8b33-45b56ff3d191",
+                  "title": "TM-01 Força bruta no login",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Fraudador automatiza tentativas de CPF+senha vazados -> acessa conta -> faz Pix para laranja",
+                  "mitigation": "Rate limit + MFA + detecção",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                },
+                {
+                  "id": "ec392c03-7d5f-457f-9e31-207e2648c86f",
+                  "title": "TM-02 Enumeração de CPFs de clientes ativos",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information Disclosure",
+                  "description": "Atacante executa script de teste de CPFs em lote no Login coletando mensagens de erro explícitas para mapear e vender lista de correntistas ativos.",
+                  "mitigation": "Unificar mensagem para erro genérico: 'CPF ou senha inválidos'.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                },
+                {
+                  "id": "01cbb692-874d-48f4-a2d2-71e4ee0bcae9",
+                  "title": "TM-20 Account Takeover via SIM Swap (MFA SMS)",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Quadrilha realiza SIM Swap de clientes, captura o código SMS de MFA, entra na conta e esvazia o saldo através de transferências Pix noturnas.",
+                  "mitigation": "Descontinuar SMS como único fator. Adotar MFA via app nativo (TOTP) ou Push Notification com Number Matching.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 550,
+              "y": 260
+            },
+            "size": {
+              "width": 110,
+              "height": 110
+            },
+            "attrs": {
+              "text": {
+                "text": "3.0 pix-service"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 2,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "14088691-972f-4237-910f-b9e59743fba5"
+                },
+                {
+                  "group": "right",
+                  "id": "15211388-0d41-4c3e-82e7-cb845d350ffa"
+                },
+                {
+                  "group": "bottom",
+                  "id": "7dcea033-460b-4582-8f09-619e67a2736f"
+                },
+                {
+                  "group": "left",
+                  "id": "e6125033-0666-4fd1-86b2-4572af50f586"
+                }
+              ]
+            },
+            "id": "proc-pix",
+            "data": {
+              "type": "tm.Process",
+              "name": "3.0 pix-service",
+              "description": "Envio/recebimento Pix",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "3e65a065-dfc2-4e41-a481-f6b6c06d1c60",
+                  "title": "TM-03 Burlar limite via flag no cliente",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Atacante intercepta o JSON do fluxo do Pix e injeta a flag limite_override=true forçando o desvio de saldos acima do limite diurno/noturno do Bacen.",
+                  "mitigation": "Remover o parâmetro do cliente e efetuar a checagem exclusivamente na API de backend.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                },
+                {
+                  "id": "4bddb28c-c16e-4aa9-bcf7-73e174d68515",
+                  "title": "TM-04 Fraude IDOR/BOLA por conta arbitrária",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Tampering",
+                  "description": "Atacante altera o valor do campo JSON conta_origem na API pública de transferências Pix para debitar e esvaziar fundos de contas de terceiros correntistas.",
+                  "mitigation": "Extrair o ID do usuário autenticado estritamente das claims seguras criptografadas do token JWT.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                },
+                {
+                  "id": "b625c298-dc25-4f82-b11c-3df7d87b6e97",
+                  "title": "TM-05 Bypass do Antifraude por Saturação",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Denial of Service",
+                  "description": "Atacante inunda a API de Pix simulando lentidão de processamento, acionando o timeout de 2 segundos para aprovar automaticamente Pix fraudulentos por 'fail open'.",
+                  "mitigation": "Alterar o comportamento para 'Fail Close', retendo a transação suspeita sob custódia e gerando alerta.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                }
+              ]
+            },
+            "tools": {
+              "items": [
+                "boundary",
+                "button-remove"
+              ],
+              "name": null
+            }
+          },
+          {
+            "position": {
+              "x": 550,
+              "y": 450
+            },
+            "size": {
+              "width": 110,
+              "height": 110
+            },
+            "attrs": {
+              "text": {
+                "text": "5.0 onboarding-srv"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 2,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "e0f46725-d064-41eb-9d4d-708c5d368230"
+                },
+                {
+                  "group": "right",
+                  "id": "983725fa-ff85-4a05-9fe7-e82e9233d9b0"
+                },
+                {
+                  "group": "bottom",
+                  "id": "da535b1e-f6b2-4be1-b003-644f4682ad5b"
+                },
+                {
+                  "group": "left",
+                  "id": "a30fb2a4-190f-4f28-87b0-02d2bd5a6698"
+                }
+              ]
+            },
+            "id": "proc-onboarding",
+            "data": {
+              "type": "tm.Process",
+              "name": "5.0 onboarding-srv",
+              "description": "Abertura de conta e KYC",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "cd3dc0d7-caac-4579-83b3-0e0e6360bd79",
+                  "title": "TM-13 Criação massiva de contas laranjas",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Quadrilha de fraude abre centenas de contas por dia injetando selfies falsas extraídas de deepfakes e fotos estáticas sem prova de vida ativa.",
+                  "mitigation": "Integrar SDK nativo de captura biométrica em tempo real com teste de prova de vida (Liveness Detection).",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                },
+                {
+                  "id": "94bb50c3-0de3-45d8-9ce1-0f655fe7b94d",
+                  "title": "TM-14 Sequestro de conta por dados públicos",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Elevation of Privilege",
+                  "description": "Golpista altera o celular de recuperação da vítima fornecendo apenas o CPF e o nome da mãe da vítima extraídos de vazamentos públicos da internet.",
+                  "mitigation": "Proibir alteração de dados críticos por perguntas estáticas; exigir validação multifator robusta.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                },
+                {
+                  "id": "f109f4e4-882e-4eb5-9082-51676ef25d83",
+                  "title": "TM-18 Repúdio de conta laranja após lavagem",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Repudiation",
+                  "description": "Membro da Quadrilha abre conta, lava dinheiro via Pix e contesta a abertura alegando 'roubo de identidade'. O banco não tem rastro digital forte para provar autoria.",
+                  "mitigation": "Coletar fingerprint do dispositivo (Device ID, IP) e assinar digitalmente o log de consentimento em base WORM.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                },
+                {
+                  "id": "1ff342a3-71c1-4dde-82ce-4fdc65dc2887",
+                  "title": "TM-19 Exaustão financeira em APIs de terceiros",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Denial of Service",
+                  "description": "Quadrilha automatiza envio de 10.000 aberturas de conta falsas. Backend repassa ao SERPRO, esgotando cota financeira do banco (Economic DoS) e bloqueando clientes.",
+                  "mitigation": "Aplicar Rate Limiting rigoroso por IP no Nginx e exigir CAPTCHA/desafio antes de invocar os Bureaus.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 680,
+              "y": 520
+            },
+            "size": {
+              "width": 110,
+              "height": 110
+            },
+            "attrs": {
+              "text": {
+                "text": "4.0 backoffice-api"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 2,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "a6847040-8af0-4c67-a25a-ae0cbd236381"
+                },
+                {
+                  "group": "right",
+                  "id": "552e284c-a8e1-4d41-8572-7776bcfb3448"
+                },
+                {
+                  "group": "bottom",
+                  "id": "62223414-a8a5-4f21-8e67-60f59fdd8350"
+                },
+                {
+                  "group": "left",
+                  "id": "feaae89a-9b39-4717-a7c1-d25ed3489c05"
+                }
+              ]
+            },
+            "id": "proc-backoffice",
+            "data": {
+              "type": "tm.Process",
+              "name": "4.0 backoffice-api",
+              "description": "Ajustes (HTTP Puro)",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "367bd048-f2d4-4df6-8a5a-0294ecb6b287",
+                  "title": "TM-11 Fraude contábil indetectável de operador",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Repudiation",
+                  "description": "Operadora maliciosa injeta créditos manuais na agência e nega o ato aproveitando-se de que o sistema não exige segunda aprovação e usa chaves compartilhadas.",
+                  "mitigation": "Aplicar controle de dupla aprovação (Maker-Checker / regra dos quatro olhos) e individualizar chaves SSH.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 800,
+              "y": 75
+            },
+            "size": {
+              "width": 140,
+              "height": 70
+            },
+            "attrs": {
+              "text": {
+                "text": "Redis (Sessões)"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 3,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "e43e40fd-912f-4aaf-9d59-aa668f5792d2"
+                },
+                {
+                  "group": "right",
+                  "id": "02f305e9-2bfc-4af3-8d7c-7776ee465c69"
+                },
+                {
+                  "group": "bottom",
+                  "id": "595bf77c-9bcf-46be-83c5-28577d11cdf5"
+                },
+                {
+                  "group": "left",
+                  "id": "02d03ef6-d1fb-44bd-b6c2-d7d6d3b6450e"
+                }
+              ]
+            },
+            "id": "store-redis",
+            "data": {
+              "type": "tm.Store",
+              "name": "Redis (Sessões)",
+              "isCredentials": true,
+              "hasOpenThreats": false,
+              "threats": []
+            }
+          },
+          {
+            "position": {
+              "x": 800,
+              "y": 275
+            },
+            "size": {
+              "width": 140,
+              "height": 70
+            },
+            "attrs": {
+              "text": {
+                "text": "PostgreSQL 16"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 3,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "9c245d95-3e09-4ef4-9aa3-e3fe3555bac3"
+                },
+                {
+                  "group": "right",
+                  "id": "9c2c4326-7073-4197-b71c-8a76124d27b0"
+                },
+                {
+                  "group": "bottom",
+                  "id": "e6f73f92-72b4-4de5-b63c-dc494c5f92b3"
+                },
+                {
+                  "group": "left",
+                  "id": "b2992931-3e5d-41e8-9c13-6e8f9c4da245"
+                }
+              ]
+            },
+            "id": "store-pg",
+            "data": {
+              "type": "tm.Store",
+              "name": "PostgreSQL 16",
+              "isCredentials": true,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "e08a0cc1-a4e0-4a00-8d7b-1392006e2ccc",
+                  "title": "TM-06 Quebra rápida de banco vazado via MD5",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Information Disclosure",
+                  "description": "Atacante efetua dump das tabelas do banco de dados relacional e reverte senhas de 6 dígitos em poucos segundos usando Rainbow Tables de MD5 obsoleto.",
+                  "mitigation": "Migrar o armazenamento de hashes de credenciais para Argon2id ou bcrypt com salt randômico.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 830,
+              "y": 530
+            },
+            "size": {
+              "width": 140,
+              "height": 70
+            },
+            "attrs": {
+              "text": {
+                "text": "Arquivo .env"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 3,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "b3fc0c18-3c03-4226-b1b8-66888f106b94"
+                },
+                {
+                  "group": "right",
+                  "id": "1501cf51-a3a5-4988-ab08-624ef159f9b5"
+                },
+                {
+                  "group": "bottom",
+                  "id": "d452a50c-aba0-4e8e-b9a5-292e3b0200d7"
+                },
+                {
+                  "group": "left",
+                  "id": "cf839bd0-aed3-4490-8cc2-32711c027706"
+                }
+              ]
+            },
+            "id": "store-env",
+            "data": {
+              "type": "tm.Store",
+              "name": "Arquivo .env",
+              "isCredentials": true,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "3f80901a-ffce-4e3d-b026-11b5f386dc3d",
+                  "title": "TM-09 Repositório Git: Vazamento de chaves (Elevation of Privilege)",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Elevation of Privilege",
+                  "description": "Atacante lê commits antigos do Git e extrai arquivos .env com senhas de produção que foram deletados no commit atual mas persistiram na árvore do Git.",
+                  "mitigation": "Executar purga completa do histórico do repositório usando BFG/Git-Filter-Repo e rotacionar as chaves.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                },
+                {
+                  "id": "aceb15f5-00cf-48f6-879c-027646973ead",
+                  "title": "TM-08 Segredos vazados em texto claro (Logs)",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information Disclosure",
+                  "description": "Ator malicioso (interno ou via invasão) acessa os arquivos de log ou o CloudWatch e copia credenciais, tokens JWT e dados cadastrais gravados sem máscara.",
+                  "mitigation": "Implementar interceptadores de log para mascarar e ofuscar dados sensíveis e segredos de autenticação.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 1120,
+              "y": 480
+            },
+            "size": {
+              "width": 140,
+              "height": 70
+            },
+            "attrs": {
+              "text": {
+                "text": "Bucket S3 KYC"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 3,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "07a40f7e-5f76-48e2-a59e-38764fce0a7b"
+                },
+                {
+                  "group": "right",
+                  "id": "34e5b5d0-25e1-4244-8aa5-e09f770eb018"
+                },
+                {
+                  "group": "bottom",
+                  "id": "7f28705e-9878-4654-8526-6bcaa909f494"
+                },
+                {
+                  "group": "left",
+                  "id": "d8dbd3ad-1869-4eba-a81c-044ac30a8cd5"
+                }
+              ]
+            },
+            "id": "store-s3",
+            "data": {
+              "type": "tm.Store",
+              "name": "Bucket S3 KYC",
+              "isCredentials": false,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "fae05af0-0e8f-427f-82ca-c7a760e26f37",
+                  "title": "TM-16 Extração de documentos em S3 público",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information Disclosure",
+                  "description": "Quadrilha Laranja descobre leitura pública no S3, extrai milhares de selfies/documentos legítimos e os usa para fraudar aberturas de contas em outras instituições.",
+                  "mitigation": "Bloquear acesso público ao S3. A aplicação deve gerar URLs pré-assinadas (Pre-Signed URLs) de curta duração.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 4,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "F1 HTTPS (Login/Pix)",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "",
+              "threats": [],
+              "trustBoundaryIds": [
+                "85f1d39c-c579-4dc1-9a6d-22db106881ec",
+                "52ddf72b-969b-4c69-96e6-be12260337a4"
+              ]
+            },
+            "labels": [
+              {
+                "attrs": {
+                  "label": {
+                    "text": "F1 HTTPS (Login/Pix)",
+                    "fill": "#000000",
+                    "fontWeight": "bold"
+                  }
+                },
+                "position": 0.5
+              }
+            ],
+            "id": "b32951dc-00b2-4e88-b0fa-6e1585aba4e5",
+            "visible": true,
+            "source": {
+              "cell": "act-cliente"
+            },
+            "target": {
+              "cell": "proc-nginx"
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 4,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "F4 HTTP Puro (Sem TLS)",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": true,
+              "protocol": "",
+              "threats": [],
+              "trustBoundaryIds": [
+                "450b204d-c5b6-4f86-b024-a083aabe34aa",
+                "52ddf72b-969b-4c69-96e6-be12260337a4"
+              ]
+            },
+            "labels": [
+              {
+                "attrs": {
+                  "label": {
+                    "text": "F4 HTTP Puro (Sem TLS)",
+                    "fill": "#000000",
+                    "fontWeight": "bold"
+                  }
+                },
+                "position": 0.5
+              }
+            ],
+            "id": "87d003db-b377-4fb9-a6eb-2577187b9979",
+            "visible": true,
+            "source": {
+              "cell": "act-operador"
+            },
+            "target": {
+              "cell": "proc-backoffice"
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 4,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "F2 Credenciais",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "aa2533f3-50df-4acb-981b-3e58359c77c3",
+                  "title": "EXEMPLO — Interceptação de credenciais no tráfego interno",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information Disclosure",
+                  "description": "EXEMPLO DIDÁTICO (apague ou mantenha): o Nginx encerra o TLS e repassa CPF+senha ao auth-service em HTTP claro na rede Docker. Um contêiner comprometido na mesma rede pode capturar credenciais.",
+                  "mitigation": "mTLS entre serviços / service mesh; segmentar redes Docker por serviço.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 1,
+                  "score": ""
+                }
+              ],
+              "trustBoundaryIds": []
+            },
+            "labels": [
+              {
+                "attrs": {
+                  "label": {
+                    "text": "F2 Credenciais",
+                    "fill": "#000000",
+                    "fontWeight": "bold"
+                  }
+                },
+                "position": 0.5
+              }
+            ],
+            "id": "68c44992-1838-42e7-80fd-d86cc343d20d",
+            "visible": true,
+            "source": {
+              "cell": "proc-nginx"
+            },
+            "target": {
+              "cell": "proc-auth"
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 4,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Ordem Pix + JWT",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "aa76745d-2d79-43d0-8bf0-ddb90e0fac60",
+                  "title": "TM-07 Captura massiva de chaves Pix por URLs",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information Disclosure",
+                  "description": "Atacante roda script sequencial nas URLs públicas de compartilhamento de comprovantes clonando nomes, CPFs e valores de transferências sem autenticação.",
+                  "mitigation": "Exigir token JWT do usuário para abrir recibos ou gerar chaves públicas com UUID pseudo-randômico de dose única.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                }
+              ],
+              "trustBoundaryIds": []
+            },
+            "labels": [
+              {
+                "attrs": {
+                  "label": {
+                    "text": "Ordem Pix + JWT",
+                    "fill": "#000000",
+                    "fontWeight": "bold"
+                  }
+                },
+                "position": 0.5
+              }
+            ],
+            "id": "3595e309-cc9d-448c-90f7-face4e8bc3cb",
+            "visible": true,
+            "source": {
+              "cell": "proc-nginx"
+            },
+            "target": {
+              "cell": "proc-pix"
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 4,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Dados KYC",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [],
+              "trustBoundaryIds": []
+            },
+            "labels": [
+              {
+                "attrs": {
+                  "label": {
+                    "text": "Dados KYC",
+                    "fill": "#000000",
+                    "fontWeight": "bold"
+                  }
+                },
+                "position": 0.5
+              }
+            ],
+            "id": "flow-nginx-onb",
+            "visible": true,
+            "source": {
+              "cell": "proc-nginx"
+            },
+            "target": {
+              "cell": "proc-onboarding"
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 4,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Valida Hash MD5",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [],
+              "trustBoundaryIds": []
+            },
+            "labels": [
+              {
+                "attrs": {
+                  "label": {
+                    "text": "Valida Hash MD5",
+                    "fill": "#000000",
+                    "fontWeight": "bold"
+                  }
+                },
+                "position": 0.5
+              }
+            ],
+            "id": "d2f7294d-a347-4e5e-9035-f1ec59e239c2",
+            "visible": true,
+            "source": {
+              "cell": "proc-auth"
+            },
+            "target": {
+              "cell": "store-pg"
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 4,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Grava JWT/Sessão",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [],
+              "trustBoundaryIds": []
+            },
+            "labels": [
+              {
+                "attrs": {
+                  "label": {
+                    "text": "Grava JWT/Sessão",
+                    "fill": "#000000",
+                    "fontWeight": "bold"
+                  }
+                },
+                "position": 0.5
+              }
+            ],
+            "id": "416d9a09-7a6a-4995-834d-ae216cbafeaa",
+            "visible": true,
+            "source": {
+              "cell": "proc-auth"
+            },
+            "target": {
+              "cell": "store-redis"
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 4,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Lançamento Ledger",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [],
+              "trustBoundaryIds": []
+            },
+            "labels": [
+              {
+                "attrs": {
+                  "label": {
+                    "text": "Lançamento Ledger",
+                    "fill": "#000000",
+                    "fontWeight": "bold"
+                  }
+                },
+                "position": 0.5
+              }
+            ],
+            "id": "77ca9111-039d-47fb-9ee3-4cbbbcc05c7f",
+            "visible": true,
+            "source": {
+              "cell": "proc-pix"
+            },
+            "target": {
+              "cell": "store-pg"
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 4,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Ajuste Manual Saldo",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "40d0036c-802b-44dd-934a-7b86bcf8c3e7",
+                  "title": "TM-10 Injeção de saldo falso via rede interna lateral",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Tampering",
+                  "description": "Atacante compromete microsserviço menor na rede Docker interna e chama o endpoint HTTP sem autenticação do ledger para inflar saldos e desviar ativos.",
+                  "mitigation": "Implementar arquitetura Zero-Trust exigindo autenticação mTLS interna e assinatura digital entre serviços.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 0,
+                  "score": ""
+                }
+              ],
+              "trustBoundaryIds": []
+            },
+            "labels": [
+              {
+                "attrs": {
+                  "label": {
+                    "text": "Ajuste Manual Saldo",
+                    "fill": "#000000",
+                    "fontWeight": "bold"
+                  }
+                },
+                "position": 0.5
+              }
+            ],
+            "id": "ce459288-d077-4fca-b563-7cdd63be5b4e",
+            "visible": true,
+            "source": {
+              "cell": "proc-backoffice"
+            },
+            "target": {
+              "cell": "store-pg"
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 4,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Grava Selfie",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "",
+              "threats": [],
+              "trustBoundaryIds": [
+                "52ddf72b-969b-4c69-96e6-be12260337a4",
+                "5ad51666-1a4b-4156-8349-44c4f0992176"
+              ]
+            },
+            "labels": [
+              {
+                "attrs": {
+                  "label": {
+                    "text": "Grava Selfie",
+                    "fill": "#000000",
+                    "fontWeight": "bold"
+                  }
+                },
+                "position": 0.5
+              }
+            ],
+            "id": "aa730dbe-a56b-4dbc-8adc-6206537ecd60",
+            "visible": true,
+            "source": {
+              "cell": "proc-onboarding"
+            },
+            "target": {
+              "cell": "store-s3"
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 4,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "F5 mTLS (ICP-Brasil)",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "",
+              "threats": [],
+              "trustBoundaryIds": [
+                "52ddf72b-969b-4c69-96e6-be12260337a4",
+                "6e6077f0-650f-417f-bf3d-789f83266c80"
+              ]
+            },
+            "labels": [
+              {
+                "attrs": {
+                  "label": {
+                    "text": "F5 mTLS (ICP-Brasil)",
+                    "fill": "#000000",
+                    "fontWeight": "bold"
+                  }
+                },
+                "position": 0.5
+              }
+            ],
+            "id": "d3044e65-4105-4234-a88e-1f879f904245",
+            "visible": true,
+            "source": {
+              "cell": "proc-pix"
+            },
+            "target": {
+              "cell": "act-bacen"
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 4,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Valida CPF (HTTPS)",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "",
+              "threats": [],
+              "trustBoundaryIds": [
+                "52ddf72b-969b-4c69-96e6-be12260337a4",
+                "6e6077f0-650f-417f-bf3d-789f83266c80"
+              ]
+            },
+            "labels": [
+              {
+                "attrs": {
+                  "label": {
+                    "text": "Valida CPF (HTTPS)",
+                    "fill": "#000000",
+                    "fontWeight": "bold"
+                  }
+                },
+                "position": 0.5
+              }
+            ],
+            "id": "a0d2abb2-5dc9-413c-85aa-6cd965b0615e",
+            "visible": true,
+            "source": {
+              "cell": "proc-onboarding"
+            },
+            "target": {
+              "cell": "act-kyc"
+            }
+          }
+        ]
+      }
+    ],
+    "diagramTop": 1,
+    "reviewer": "",
+    "threatTop": 0
+  }
+}
